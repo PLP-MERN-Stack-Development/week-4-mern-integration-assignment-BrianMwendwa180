@@ -8,12 +8,11 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 // Import routes
-const postRoutes = require('./routes/posts');
-const categoryRoutes = require('./routes/categories');
-const authRoutes = require('./routes/auth');
+const postRoutes = require('./routes/postRoutes');
+/* const categoryRoutes = require('./routes/categories'); */
+const authRoutes = require('./routes/authRoutes');
 
-// Load environment variables
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 // Initialize Express app
 const app = express();
@@ -37,7 +36,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // API routes
 app.use('/api/posts', postRoutes);
-app.use('/api/categories', categoryRoutes);
+/* app.use('/api/categories', categoryRoutes); */
 app.use('/api/auth', authRoutes);
 
 // Root route
@@ -56,7 +55,7 @@ app.use((err, req, res, next) => {
 
 // Connect to MongoDB and start server
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => {
